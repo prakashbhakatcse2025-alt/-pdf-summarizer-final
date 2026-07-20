@@ -38,11 +38,11 @@ Document:
 # 4. Streamlit UI Elements
 st.set_page_config(page_title="AI PDF Summarizer", page_icon="📄")
 st.title("📄 Smart AI PDF Summarizer")
-st.write("Apni PDF upload karein aur manpasand bhasha me summary payein!")
+st.write("Upload your PDF and get a summary in your preferred language!")
 
 # Sidebar me settings daal dete hain taaki screen saaf dikhe
 st.sidebar.header("⚙️ Settings")
-summary_lang = st.sidebar.selectbox("Summary ki Bhasha (Language) chune:", ["English", "Hindi"])
+summary_lang = st.sidebar.selectbox("Select the summary language:", ["English", "Hindi"])
 summary_len = st.sidebar.radio("Summary ki Length chune:", ["Short", "Medium", "Detailed"])
 
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
