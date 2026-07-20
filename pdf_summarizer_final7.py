@@ -37,41 +37,45 @@ Document:
     return response.text
 
 # 4. Streamlit UI Elements & Configuration
-st.set_page_config(page_title="Ultimate AI PDF Assistant", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="Smart PDF Assistant", page_icon="🤖", layout="wide")
 
-# Injecting Custom Professional Custom CSS Styling 🎨
+# Injecting Clean Light Blue / Gray Professional CSS Styling 🎨
 st.markdown("""
     <style>
         /* Main Page Background and Text Color */
         .stApp {
-            background-color: #F8F9FA;
-            color: #212529;
+            background-color: #F3F4F6 !important; /* Soft Light Gray */
+            color: #1F2937 !important;
         }
         
         /* Main Headers Styling */
         h1 {
-            color: #1E3A8A !important; /* Deep Professional Blue */
+            color: #1E3A8A !important; /* Deep Blue */
             font-family: 'Helvetica Neue', Arial, sans-serif;
             font-weight: 700;
         }
         
         h3 {
-            color: #0F172A !important; /* Slate Blue */
+            color: #1E293B !important;
             font-weight: 600;
         }
         
-        /* Sidebar Styling */
+        /* Fixed Sidebar Colors: Light Blue/Gray Background with Clear Dark Text */
         [data-testid="stSidebar"] {
-            background-color: #0F172A !important; /* Dark Elegant Slate */
+            background-color: #E0E7FF !important; /* Soft Light Blue-Gray background */
+            border-right: 1px solid #CBD5E1;
         }
-        [data-testid="stSidebar"] .stMarkdown, [data-testid="stSidebar"] label {
-            color: #E2E8F0 !important; /* Crisp Light Text for Sidebar Labels */
+        
+        /* Forces all text, titles, headers, and radio option text inside the sidebar to be fully visible and dark */
+        [data-testid="stSidebar"] *, [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
+            color: #0F172A !important; /* Elegant Dark Slate Blue text */
+            font-weight: 500;
         }
         
         /* Custom Styling for Information Cards */
         .stAlert {
             background-color: #FFFFFF !important;
-            border-left: 5px solid #2563EB !important; /* Indigo Blue Border Accent */
+            border-left: 5px solid #2563EB !important;
             border-radius: 8px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
@@ -87,13 +91,13 @@ st.markdown("""
             transition: all 0.3s ease;
         }
         div.stButton > button:first-child:hover {
-            background-color: #1D4ED8 !important; /* Hover effect: Darker Blue */
+            background-color: #1D4ED8 !important;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🤖 Ultimate AI PDF Assistant")
+st.title("🤖 Smart PDF Assistant")
 st.write("Upload your PDF, generate smart summaries, and chat with your document!")
 
 # Sidebar Settings
@@ -105,7 +109,6 @@ summary_tone = st.sidebar.selectbox("Summary Tone:", ["Professional", "Simple/Ea
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
 if uploaded_file is not None:
-    # Session state to store text and summary so they don't disappear during chat
     if "pdf_text" not in st.session_state:
         with st.spinner("Extracting text from PDF..."):
             st.session_state.pdf_text = extract_text_from_pdf(uploaded_file)
@@ -113,7 +116,6 @@ if uploaded_file is not None:
     pdf_text = st.session_state.pdf_text
 
     if pdf_text.strip():
-        # Quick Stats Panel
         words = len(pdf_text.split())
         reading_time = max(1, round(words / 200))
         
@@ -123,12 +125,10 @@ if uploaded_file is not None:
         with col2:
             st.info(f"⏱️ *Reading Time:* ~{reading_time} min")
 
-        # Action Buttons
         if st.button("Generate Summary ✨"):
             with st.spinner("AI is generating your summary..."):
                 st.session_state.summary = summarize_text(pdf_text, length=summary_len, language=summary_lang, tone=summary_tone)
 
-        # Display Summary if generated
         if "summary" in st.session_state:
             st.subheader("📋 Your Summary:")
             st.write(st.session_state.summary)
@@ -142,7 +142,6 @@ if uploaded_file is not None:
             
             st.markdown("---")
             
-            # CHAT WITH PDF FEATURE 💬
             st.subheader("💬 Ask Anything about this PDF:")
             user_question = st.text_input("Type your question here:")
             
