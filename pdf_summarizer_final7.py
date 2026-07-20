@@ -37,17 +37,17 @@ Document:
 
 # 4. Streamlit UI Elements
 st.set_page_config(page_title="AI PDF Summarizer", page_icon="📄")
-st.title("📄 Smart AI PDF Summarizer")
+st.title("📄 Smart PDF Summarizer")
 st.write("Upload your PDF and get a summary in your preferred language!")
 
 # Sidebar me settings daal dete hain taaki screen saaf dikhe
 st.sidebar.header("⚙️ Settings")
 summary_lang = st.sidebar.selectbox("Select the summary language:", ["English", "Hindi"])
-summary_len = st.sidebar.radio("Summary ki Length chune:", ["Short", "Medium", "Detailed"])
+summary_len = st.sidebar.radio("Choose the Length of the Summary:", ["Short", "Medium", "Detailed"])
 
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
-# Agar user file upload karega, tabhi ye chalega
+
 if uploaded_file is not None:
     with st.spinner("PDF se text nikala ja raha hai..."):
         pdf_text = extract_text_from_pdf(uploaded_file)
@@ -55,7 +55,7 @@ if uploaded_file is not None:
     if pdf_text.strip():
         st.success("PDF successfully read ho gayi!")
         
-        # Summary generate karne ka button
+        
         if st.button("Generate Summary ✨"):
             with st.spinner(f"Cohere AI aapki {summary_len} summary {summary_lang} me bana raha hai..."):
                 summary = summarize_text(pdf_text, length=summary_len, language=summary_lang)
