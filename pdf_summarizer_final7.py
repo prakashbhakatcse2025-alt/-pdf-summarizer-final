@@ -1,3 +1,5 @@
+import streamlit as st
+import cohere
 # -*- coding: utf-8 -*-
 """Copy of pdf summarizer new7.ipynb
 
@@ -9,8 +11,8 @@ Original file is located at
 
 
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
-pdf_filename = list(uploaded.keys())[0]
-print(f"Uploaded: {pdf_filename}")
+if uploaded_file is not None:
+    pdf_text = extract_text_from_pdf(uploaded_file)
 
 from pypdf import PdfReader
 
