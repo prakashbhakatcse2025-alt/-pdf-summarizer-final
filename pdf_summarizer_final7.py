@@ -8,10 +8,7 @@ Original file is located at
 """
 
 
-
-from google.colab import files
-
-uploaded = files.upload()
+uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 pdf_filename = list(uploaded.keys())[0]
 print(f"Uploaded: {pdf_filename}")
 
